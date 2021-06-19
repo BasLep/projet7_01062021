@@ -12,11 +12,8 @@ const User = db.define("user", {
 	},
 	email: {
 		type: DataTypes.STRING,
-		required: true,
-		unique: {
-			args: true,
-			message: "Cette adresse mail est déjà dans notre base de données"
-		}
+		unique: true,
+		required: true
 	},
 	password: {
 		type: DataTypes.STRING,

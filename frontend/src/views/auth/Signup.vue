@@ -36,7 +36,6 @@ export default {
 	},
 	methods: {
 		formSignup() {
-			// let signup = [];
 			let firstName = document.getElementById("firstname").value;
 			let lastName = document.getElementById("lastname").value;
 			let email = document.getElementById("email").value;
@@ -49,11 +48,10 @@ export default {
 					password
 				})
 				.then((res) => {
-					res.status(201).json({ message: "requête envoyé" });
+					if (res.status === 201) {
+						this.$router.push("Login");
+					}
 				});
-			// .catch((error) => {
-
-			this.$router.push("Login");
 		}
 	}
 };

@@ -7,3 +7,16 @@ Content-Type: application/json
     "email": "aaa@aa.fr",
     "password": "aaa" 
 }
+###
+GET http://localhost:3000/api/auth/18
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE3LCJpYXQiOjE2MjM2ODU1MTIsImV4cCI6MTYyMzc3MTkxMn0.mZHSvVv13Ehbkk83rd2UQ8QbuKrK_YKT1ght8ikbKjE
+###
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "aaa@aa.fr",
+    "password": "aaa"
+    }
+###
+GET http://localhost:3000/api/auth/
