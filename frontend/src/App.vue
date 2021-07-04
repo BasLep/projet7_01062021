@@ -1,8 +1,33 @@
 <template>
-	<div>
+	<div @modificate-state="modificateState">
+		<Header />
+		<Headerafterlogin />
 		<router-view />
 	</div>
 </template>
+
+<script>
+import Header from "@/components/Header.vue";
+import Headerafterlogin from "@/components/Headerafterlogin.vue";
+
+export default {
+	components: {
+		Header,
+		Headerafterlogin
+	},
+	data() {
+		return {
+			state: "default"
+		};
+	},
+	methods: {
+		modificateState() {
+			// this.state = "connected";
+			console.log("test");
+		}
+	}
+};
+</script>
 
 <style lang="scss">
 #app {

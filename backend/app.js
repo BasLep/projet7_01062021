@@ -2,11 +2,14 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const userRoutes = require("./routes/user");
+const articleRoutes = require("./routes/article");
 // Database
 const db = require("./config/database");
 db.authenticate()
 	.then(() => console.log("Connecté à la base de données"))
 	.catch((error) => console.log("Erreur: " + error));
+
+require("./association")();
 
 const app = express();
 
@@ -22,5 +25,6 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.use("/api/auth", userRoutes);
+app.use("/api/article", articleRoutes);
 
 module.exports = app;

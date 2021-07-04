@@ -1,6 +1,5 @@
 <template>
 	<div class="container">
-		<Header />
 		<h1>Notre réseau social</h1>
 		<p id="presentation">
 			Cher visiteur, bonjour et bienvenue sur le réseau social interne de l'entreprise
@@ -18,13 +17,8 @@
 </template>
 
 <script>
-import Header from "@/components/Header";
-
 export default {
-	name: "App",
-	components: {
-		Header
-	}
+	name: "App"
 };
 </script>
 

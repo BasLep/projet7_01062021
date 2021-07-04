@@ -19,4 +19,17 @@ Content-Type: application/json
     "password": "aaa"
     }
 ###
-GET http://localhost:3000/api/auth/
+GET http://localhost:3000/api/auth/17
+###
+POST http://localhost:3000/api/article/postarticle
+Content-Type: application/json
+
+{
+    "title": "Nouvel article",
+    "description": "un article test",
+    "textArticle": "Lorem ipsum dolor sit amet. In minima dolores nam dignissimos nisi qui galisum nulla ut temporibus velit aut vero deserunt aut galisum laudantium. Sed quam tempore et quod totam est consectetur nulla! Id consequuntur rerum non dolorum corrupti aut itaque illum cum aliquid ducimus sed necessitatibus dolor.",
+    "userId": 5  
+}
+###
+GET http://localhost:3000/api/article
+###

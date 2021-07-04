@@ -2,7 +2,8 @@ const jwtoken = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
 	try {
-		const token = req.headers.authorization.split(" ")[1];
+		const userData = JSON.parse(localStorage.getItem("dataUser"));
+		const token = userData.token;
 		const decodedToken = jwtoken.verify(token, process.env.ACCESS_TOKEN_SECRET);
 		const userId = decodedToken.userId;
 		if (req.body.userId && req.body.userId !== userId) {

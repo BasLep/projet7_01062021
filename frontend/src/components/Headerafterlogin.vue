@@ -1,19 +1,32 @@
 <template>
 	<div class="container">
 		<header>
-			<img src="../assets/logo-groupomania.png" alt="Logo de l'entreprise" />
+			<img
+				src="../assets/logo-groupomania.png"
+				alt="Logo de l'entreprise"
+				@click="returnHome"
+			/>
 			<div id="nav">
+				<router-link to="/homeafterlog">Accueil</router-link> |
 				<router-link to="/myaccount">Mon compte</router-link> |
-				<router-link to="/logout">Se déconnecter</router-link>
+				<p id="logout" @click="logout">Se déconnecter</p>
 			</div>
 		</header>
-		<div id="welcome"></div>
 	</div>
 </template>
 
 <script>
 export default {
-	name: "Header"
+	name: "Header",
+	methods: {
+		returnHome() {
+			this.$router.push("Homeafterlog");
+		},
+		logout() {
+			localStorage.clear("dataUser");
+			this.$router.push("login");
+		}
+	}
 };
 </script>
 
@@ -26,5 +39,13 @@ header {
 }
 img {
 	width: 25%;
+}
+#logout {
+	font-weight: bold;
+	color: #2c3e50;
+	cursor: pointer;
+}
+#logout:hover {
+	text-decoration: underline;
 }
 </style>

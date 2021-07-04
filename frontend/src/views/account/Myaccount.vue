@@ -1,8 +1,7 @@
 <template>
 	<div class="container">
-		<Header />
 		<h1>Mon compte</h1>
-		<form @submit="formModify" id="form_modifyaccount">
+		<form @submit.prevent="formModify" id="form_modifyaccount">
 			<div class="form-group">
 				<label for="firstname">Prénom</label>
 				<input type="text" class="form-control" id="firstname" v-model="firstName" />
@@ -11,30 +10,40 @@
 				<label for="lastname">Nom</label>
 				<input type="text" class="form-control" id="lastname" v-model="lastName" />
 			</div>
+			<div class="form-group">
+				<label for="job">Travail</label>
+				<input type="text" class="form-control" id="job" v-model="job" />
+			</div>
+			<div class="form-group">
+				<label for="desk">Bureau</label>
+				<input
+					type="text"
+					class="form-control"
+					id="desk"
+					placeholder="Etage, bureau, etc."
+					v-model="desk"
+				/>
+			</div>
 			<p>Vous êtes inscrit depuis le {{ info.createdAt }}</p>
 			<p>Vous avez modifié votre compte la dernière fois le {{ info.updatedAt }}</p>
 			<button type="submit">Mettre à jour mes informations</button>
 			<button @click="deleteAccount">Supprimer mon compte</button>
 		</form>
-
-		<p>{{ info }}</p>
 	</div>
 </template>
 
 <script>
 import axios from "axios";
-import Header from "../../components/Headerafterlogin.vue";
 
 export default {
 	name: "Myaccount",
-	components: {
-		Header
-	},
 	data() {
 		return {
 			info: null,
 			firstName: null,
-			lastName: null
+			lastName: null,
+			job: null,
+			desk: null
 		};
 	},
 	created() {
@@ -43,18 +52,25 @@ export default {
 		axios
 			.get("http://localhost:3000/api/auth/" + id)
 			.then((response) => (this.info = response.data))
-			.then((info) => ((this.firstName = info.firstName), (this.lastName = info.lastName)));
+			.then(
+				(info) => (
+					(this.firstName = info.firstName),
+					(this.lastName = info.lastName),
+					(this.job = info.job),
+					(this.desk = info.desk)
+				)
+			);
 	},
 	methods: {
 		formModify() {
 			let user = JSON.parse(localStorage.getItem("dataUser"));
 			let id = user.userId;
-			let firstName = document.getElementById("firstname").value;
-			let lastName = document.getElementById("lastname").value;
 			axios
 				.put("http://localhost:3000/api/auth/" + id, {
-					firstName,
-					lastName
+					firstName: this.firstName,
+					lastName: this.lastName,
+					job: this.job,
+					desk: this.desk
 				})
 				.then.status(201)
 				.json({ message: "requête envoyée" });

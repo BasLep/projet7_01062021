@@ -21,6 +21,8 @@ header {
 	flex-direction: column;
 	align-items: center;
 	margin-bottom: 20px;
+	padding-right: 50px;
+	padding-left: 50px;
 }
 img {
 	width: 25%;
