@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 
 const userRoutes = require("./routes/user");
 const articleRoutes = require("./routes/article");
+const commentRoute = require("./routes/comment");
 // Database
 const db = require("./config/database");
 db.authenticate()
@@ -26,5 +27,6 @@ app.use(bodyParser.json());
 
 app.use("/api/auth", userRoutes);
 app.use("/api/article", articleRoutes);
+app.use("/api/comment", commentRoute);
 
 module.exports = app;

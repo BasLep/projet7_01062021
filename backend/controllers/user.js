@@ -14,9 +14,7 @@ exports.signup = async (req, res, next) => {
 					firstName: req.body.firstName,
 					lastName: req.body.lastName,
 					email: req.body.email,
-					password: hash,
-					job: "",
-					desk: ""
+					password: hash
 				});
 			})
 			.then(() => res.status(201).json({ message: "Utilisateur créé" }))

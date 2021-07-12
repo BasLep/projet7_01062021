@@ -49,8 +49,11 @@ export default {
 	created() {
 		let user = JSON.parse(localStorage.getItem("dataUser"));
 		let id = user.userId;
+		let token = user.token;
 		axios
-			.get("http://localhost:3000/api/auth/" + id)
+			.get("http://localhost:3000/api/auth/" + id, {
+				headers: { Authorization: `Bearer ${token}` }
+			})
 			.then((response) => (this.info = response.data))
 			.then(
 				(info) => (
@@ -65,21 +68,36 @@ export default {
 		formModify() {
 			let user = JSON.parse(localStorage.getItem("dataUser"));
 			let id = user.userId;
+			let token = user.token;
 			axios
-				.put("http://localhost:3000/api/auth/" + id, {
-					firstName: this.firstName,
-					lastName: this.lastName,
-					job: this.job,
-					desk: this.desk
-				})
+				.put(
+					"http://localhost:3000/api/auth/" + id,
+					{
+						userId: id,
+						firstName: this.firstName,
+						lastName: this.lastName,
+						job: this.job,
+						desk: this.desk
+					},
+					{
+						headers: { Authorization: `Bearer ${token}` }
+					}
+				)
 				.then.status(201)
 				.json({ message: "requête envoyée" });
 		},
 		deleteAccount() {
 			let user = JSON.parse(localStorage.getItem("dataUser"));
 			let id = user.userId;
-			axios.delete("http://localhost:3000/api/auth/" + id);
-			this.$router.push("Signup");
+			let token = user.token;
+			axios
+				.delete("http://localhost:3000/api/auth/" + id, {
+					data: {
+						userId: id
+					},
+					headers: { Authorization: `Bearer ${token}` }
+				})
+				.then(this.$router.push("Signup"));
 		}
 	}
 };

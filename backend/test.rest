@@ -19,17 +19,55 @@ Content-Type: application/json
     "password": "aaa"
     }
 ###
+PUT http://localhost:3000/api/auth/2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTYyNTgxODY4MSwiZXhwIjoxNjI1OTA1MDgxfQ.Hgs7wVhxCz0ZHjjKVrp0GlhkayjL4hqKNKDbrP0pxtE
+
+{
+    "firstName": "testmodification"
+}
+###
 GET http://localhost:3000/api/auth/17
 ###
 POST http://localhost:3000/api/article/postarticle
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYyNTgzODE5OCwiZXhwIjoxNjI1OTI0NTk4fQ.CNTb-lpc4vGoxKMfQXFLua55Ex3EXMVvTnUtH4uqJW0
 Content-Type: application/json
 
 {
     "title": "Nouvel article",
     "description": "un article test",
     "textArticle": "Lorem ipsum dolor sit amet. In minima dolores nam dignissimos nisi qui galisum nulla ut temporibus velit aut vero deserunt aut galisum laudantium. Sed quam tempore et quod totam est consectetur nulla! Id consequuntur rerum non dolorum corrupti aut itaque illum cum aliquid ducimus sed necessitatibus dolor.",
-    "userId": 5  
+    "userId": 1
 }
 ###
 GET http://localhost:3000/api/article
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTYyNTc0NzU3MSwiZXhwIjoxNjI1ODMzOTcxfQ.OLuYBNHN0uQk7n5sDg-17qdjyfMVjcrrPcWppAvxjH8
 ###
+GET http://localhost:3000/api/article/1
+###
+POST http://localhost:3000/api/comment/postcomment
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTYyNTgxODY4MSwiZXhwIjoxNjI1OTA1MDgxfQ.Hgs7wVhxCz0ZHjjKVrp0GlhkayjL4hqKNKDbrP0pxtE
+Content-Type: application/json
+
+{
+    "content": "Ceci est un commentaire poster sur l'article 4 par l'utililsateur 5",
+    "userId": 1,
+    "articleId": 1
+}
+###
+GET http://localhost:3000/api/comment
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYyNTkwODkzNiwiZXhwIjoxNjI1OTk1MzM2fQ.L1mvqNqjjSmQG5uPpcAAeGpBreD80DpAwdBsZs2C6co
+Content-Type: application/json
+
+{
+    "articleId": 1
+}
+###
+PUT http://localhost:3000/api/comment/onecomment/21
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYyNjAxNTM3MiwiZXhwIjoxNjI2MTAxNzcyfQ.91yMkaQCVm-tGQumMJr533s-iPIldybWCr3qNqw4kfI
+Content-Type: application/json
+
+{
+    "userId": 1,
+    "content": "Nouvelle modification du commentaire"
+}

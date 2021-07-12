@@ -4,8 +4,11 @@
 		<div id="all_article" v-for="article in dataArticle.reverse()" :key="article.title">
 			<h3>{{ article.title }}</h3>
 			<p>{{ article.description }}</p>
-			<p>{{ article.createdAt }}</p>
-			<router-link :to="{ path: 'onearticle', query: { articleId: `${article.id}` } }"
+			<p>
+				Cet article a été écrit par {{ article.User.firstName }}
+				{{ article.User.lastName }} le {{ article.createdAt }}
+			</p>
+			<router-link :to="{ name: 'onearticle', params: { id: article.id } }"
 				>Afficher l'article</router-link
 			>
 		</div>

@@ -51,9 +51,15 @@ const routes = [
 		meta: { requiresAuth: true }
 	},
 	{
-		path: "/onearticle",
+		path: "/onearticle/:id",
 		component: () => import("../views/article/OneArticle.vue"),
 		name: "onearticle",
+		meta: { requiresAuth: true }
+	},
+	{
+		path: "/onecomment/:id",
+		component: () => import("../views/article/Onecomment.vue"),
+		name: "onecomment",
 		meta: { requiresAuth: true }
 	}
 ];

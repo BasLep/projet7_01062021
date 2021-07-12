@@ -21,11 +21,17 @@ const User = db.define("User", {
 	password: {
 		type: DataTypes.STRING
 	},
+	isAdmin: {
+		type: DataTypes.BOOLEAN,
+		defaultValue: false
+	},
 	job: {
-		type: DataTypes.TEXT
+		type: DataTypes.TEXT,
+		defaultValue: ""
 	},
 	desk: {
-		type: DataTypes.TEXT
+		type: DataTypes.TEXT,
+		defaultValue: ""
 	}
 });
 

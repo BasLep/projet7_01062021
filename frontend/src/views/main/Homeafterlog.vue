@@ -9,25 +9,25 @@
 		<div id="div_article">
 			<router-link to="newarticle">Poster un article</router-link>
 		</div>
-		<div v-if="dataArticle === null">
+		<div v-if="!dataArticle">
 			<p>Les membres de notre communautés n'ont pour le moment pas partagé de contenu</p>
 		</div>
 		<div v-if="dataArticle !== null">
 			<div
-				id="last_article"
+				class="last_article"
 				v-for="article in dataArticle.reverse().slice(0, 5)"
 				:key="article.title"
 			>
 				<h3>{{ article.title }}</h3>
 				<p>{{ article.description }}</p>
-				<p>{{ article.id }}</p>
 				<p>
 					Cet article a été écrit par {{ article.User.firstName }}
 					{{ article.User.lastName }} le {{ article.createdAt }}
 				</p>
-				<router-link :to="{ path: 'onearticle', query: { articleId: `${article.id}` } }"
+				<router-link :to="{ name: 'onearticle', params: { id: article.id } }"
 					>Afficher l'article</router-link
 				>
+				<p>{{ article }}</p>
 			</div>
 			<button @click="pageAllArticle">Tous les articles</button>
 		</div>
@@ -48,11 +48,16 @@ export default {
 	created() {
 		let user = JSON.parse(localStorage.getItem("dataUser"));
 		let id = user.userId;
+		let token = user.token;
 		axios
-			.get("http://localhost:3000/api/auth/" + id)
+			.get("http://localhost:3000/api/auth/" + id, {
+				headers: { Authorization: `Bearer ${token}` }
+			})
 			.then((response) => (this.information = response.data));
 		axios
-			.get("http://localhost:3000/api/article")
+			.get("http://localhost:3000/api/article", {
+				headers: { Authorization: `Bearer ${token}` }
+			})
 			.then((response) => (this.dataArticle = response.data));
 	},
 	methods: {
@@ -64,7 +69,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#last_article {
+.last_article {
 	border: 2px solid black;
 	margin: 10px 0;
 }

@@ -3,26 +3,17 @@ const { DataTypes } = require("sequelize");
 
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
-		return queryInterface.createTable("articles", {
+		return queryInterface.createTable("comments", {
 			id: {
 				type: DataTypes.INTEGER(11),
 				allowNull: false,
 				autoIncrement: true,
 				primaryKey: true
 			},
-			title: {
-				type: DataTypes.STRING
+			content: {
+				type: DataTypes.STRING(300)
 			},
-			description: {
-				type: DataTypes.STRING
-			},
-			imageUrl: {
-				type: DataTypes.STRING,
-				defaultValue: ""
-			},
-			textArticle: {
-				type: DataTypes.TEXT
-			},
+			articleId: DataTypes.INTEGER(11),
 			userId: DataTypes.INTEGER(11),
 			createdAt: DataTypes.DATE,
 			updatedAt: DataTypes.DATE
@@ -30,6 +21,6 @@ module.exports = {
 	},
 
 	down: async (queryInterface, Sequelize) => {
-		return queryInterface.dropTable("articles");
+		return queryInterface.dropTable("comments");
 	}
 };

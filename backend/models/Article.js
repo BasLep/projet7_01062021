@@ -14,6 +14,10 @@ const Article = db.define("Article", {
 	description: {
 		type: DataTypes.STRING
 	},
+	imageUrl: {
+		type: DataTypes.STRING,
+		defaultValue: ""
+	},
 	textArticle: {
 		type: DataTypes.TEXT
 	}
