@@ -1,7 +1,7 @@
 <template>
-	<div @modificate-state="modificateState">
-		<Header />
-		<Headerafterlogin />
+	<div>
+		<Header v-if="token === null" />
+		<Headerafterlogin v-if="token !== null" :key="componenetKey" />
 		<router-view />
 	</div>
 </template>
@@ -17,15 +17,17 @@ export default {
 	},
 	data() {
 		return {
-			state: "default"
+			compomentKey: 0,
+			token: null
 		};
 	},
-	methods: {
-		modificateState() {
-			// this.state = "connected";
-			console.log("test");
+	created() {
+		let userData = JSON.parse(localStorage.getItem("dataUser"));
+		if (userData !== null) {
+			this.token = userData.token;
 		}
-	}
+	},
+	methods: {}
 };
 </script>
 

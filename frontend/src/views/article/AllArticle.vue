@@ -26,8 +26,12 @@ export default {
 		};
 	},
 	created() {
+		let userData = JSON.parse(localStorage.getItem("dataUser"));
+		let token = userData.token;
 		axios
-			.get("http://localhost:3000/api/article")
+			.get("http://localhost:3000/api/article", {
+				headers: { Authorization: `Bearer ${token}` }
+			})
 			.then((response) => (this.dataArticle = response.data));
 	}
 };

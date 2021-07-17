@@ -17,8 +17,21 @@
 				/>
 			</div>
 			<div class="form-group">
-				<label for="image">Ajouter une image</label> <br />
-				<input type="file" name="image" id="image" @change="onFileSelected" /> <br />
+				<div v-if="!image">
+					<label for="image">Ajouter une image</label> <br />
+					<input
+						type="file"
+						name="image"
+						id="image"
+						ref="file"
+						@change="onFileSelected"
+					/>
+					<br />
+				</div>
+				<div v-else>
+					<img :src="image" /> <br />
+					<button @click="removeImage">Retirer l'image</button>
+				</div>
 			</div>
 			<div class="form-group">
 				<label for="textArticle">Texte de l'article</label> <br />
@@ -44,12 +57,32 @@ export default {
 	name: "newArticle",
 	data() {
 		return {
-			selectedFile: null
+			image: "",
+			file: "",
+			imageUrl: ""
 		};
 	},
 	methods: {
 		onFileSelected(event) {
-			this.selectedFile = event.target.files[0];
+			let files = event.target.files || event.dataTransferr.files;
+			if (!files.length) return;
+			this.createImage(files[0]);
+			this.file = this.$refs.file.files[0];
+		},
+		createImage(file) {
+			let reader = new FileReader();
+			let vm = this;
+
+			reader.onload = (event) => {
+				vm.image = event.target.result;
+			};
+			reader.onloadend = () => {
+				this.imageUrl = reader.result;
+			};
+			reader.readAsDataURL(file);
+		},
+		removeImage: function() {
+			this.image = "";
 		},
 		formNewArticle() {
 			let dataUser = JSON.parse(localStorage.getItem("dataUser"));
@@ -62,10 +95,14 @@ export default {
 						userId: userId,
 						title: this.title,
 						description: this.description,
-						textArticle: this.textArticle
+						imageUrl: this.imageUrl,
+						textArticle: this.textArticle,
+						imageName: this.file.name
 					},
 					{
-						headers: { Authorization: `Bearer ${token}` }
+						headers: {
+							Authorization: `Bearer ${token}`
+						}
 					}
 				)
 				.then((res) => {

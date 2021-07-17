@@ -1,20 +1,26 @@
-<template>
+"<template>
 	<div class="container">
-		<h1>Test</h1>
-		<form @submit.prevent="formModifyComment">
-			<div class="class-group">
-				<label for="post_comment">Commentez</label>
-				<textarea
-					name="post_comment"
-					id="post_comment"
-					class="form-control"
-					v-model="content"
-				></textarea>
-			</div>
-			<button type="submit" id="button_modify">Modifiez</button>
-			<button @click="deleteComment"><i class="fas fa-trash"></i></button>
-		</form>
-		<p>{{ informationComment }}</p>
+		<div v-if="userId === informationComment.User.id || isAdmin === true">
+			<form @submit.prevent="formModifyComment">
+				<div class="class-group">
+					<label for="post_comment">Commentez</label>
+					<textarea
+						name="post_comment"
+						id="post_comment"
+						class="form-control"
+						v-model="content"
+					></textarea>
+				</div>
+				<button type="submit" id="button_modify">Modifiez</button>
+				<button @click="deleteComment"><i class="fas fa-trash"></i></button>
+			</form>
+		</div>
+		<div v-else>
+			<p>
+				Vous n'êtes pas autorisé à accèder au contenu de cette page car vous n'êtes pas le
+				créateur de ce commentaire.
+			</p>
+		</div>
 	</div>
 </template>
 
@@ -25,6 +31,8 @@ export default {
 	data() {
 		return {
 			commentId: null,
+			userId: null,
+			isAdmin: "",
 			informationComment: null,
 			content: null
 		};
@@ -32,6 +40,8 @@ export default {
 	created() {
 		let userData = JSON.parse(localStorage.getItem("dataUser"));
 		let token = userData.token;
+		this.userId = userData.userId;
+		this.isAdmin = userData.isAdmin;
 		this.commentId = this.$route.params.id;
 		axios
 			.get("http://localhost:3000/api/comment/onecomment/" + this.commentId, {
@@ -45,11 +55,13 @@ export default {
 			let userData = JSON.parse(localStorage.getItem("dataUser"));
 			let token = userData.token;
 			let userId = userData.userId;
+			let isAdmin = userData.isAdmin;
 			this.commentId = this.$route.params.id;
 			axios.put(
 				"http://localhost:3000/api/comment/onecomment/" + this.commentId,
 				{
 					userId: userId,
+					isAdmin: isAdmin,
 					content: this.content
 				},
 				{
@@ -62,11 +74,13 @@ export default {
 			this.commentId = this.$route.params.id;
 			let userData = JSON.parse(localStorage.getItem("dataUser"));
 			let userId = userData.userId;
+			let isAdmin = userData.isAdmin;
 			let token = userData.token;
 			axios
 				.delete("http://localhost:3000/api/comment/onecomment/" + this.commentId, {
 					data: {
-						userId: userId
+						userId: userId,
+						isAdmin: isAdmin
 					},
 					headers: { Authorization: `Bearer ${token}` }
 				})

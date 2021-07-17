@@ -8,6 +8,9 @@
 					{{ informationArticle.User.lastName }}
 				</p>
 			</div>
+			<div id="img">
+				<img v-bind:src="imageUrl" alt="" />
+			</div>
 			<div id="info_article">
 				<p>{{ informationArticle.textArticle }}</p>
 			</div>
@@ -18,7 +21,10 @@
 				</p>
 			</div>
 		</div>
-		<div id="display_auth" v-if="userIdFromToken === informationArticle.User.id">
+		<div
+			id="display_auth"
+			v-if="userIdFromToken === informationArticle.User.id || isAdmin === true"
+		>
 			<form @submit.prevent="formModifyArticle" id="form_modify_article">
 				<div class="form-group">
 					<label for="title">Titre</label>
@@ -32,6 +38,23 @@
 						class="form-control"
 						v-model="description"
 					/>
+				</div>
+				<div class="form-group">
+					<div v-if="!image">
+						<label for="image">Ajouter une image</label> <br />
+						<input
+							type="file"
+							name="image"
+							id="image"
+							ref="file"
+							@change="onFileSelected"
+						/>
+						<br />
+					</div>
+					<div v-else>
+						<img :src="image" /> <br />
+						<button @click="removeImage">Retirer l'image</button>
+					</div>
 				</div>
 				<div class="form-group">
 					<label for="text_article">Texte</label>
@@ -66,7 +89,10 @@
 				<h3>Commentaire #{{ index }}</h3>
 				<h4>Posté par {{ comment.User.firstName }} {{ comment.User.lastName }}</h4>
 				<p>{{ comment.content }}</p>
-				<div class="comment_auth" v-if="userIdFromToken === comment.User.id">
+				<div
+					class="comment_auth"
+					v-if="userIdFromToken === comment.User.id || isAdmin === true"
+				>
 					<router-link :to="{ name: 'onecomment', params: { id: comment.id } }"
 						>Modifier commentaire</router-link
 					>
@@ -86,8 +112,12 @@ export default {
 			articleId: null,
 			informationArticle: null,
 			userIdFromToken: "",
+			image: "",
+			file: "",
+			isAdmin: "",
 			title: null,
 			description: null,
+			imageUrl: null,
 			textArticle: null,
 			content: null,
 			showComment: false,
@@ -98,6 +128,7 @@ export default {
 		let userData = JSON.parse(localStorage.getItem("dataUser"));
 		let token = userData.token;
 		this.userIdFromToken = userData.userId;
+		this.isAdmin = userData.isAdmin;
 		this.articleId = this.$route.params.id;
 		axios
 			.get("http://localhost:3000/api/article/" + this.articleId, {
@@ -108,7 +139,8 @@ export default {
 				(informationArticle) => (
 					(this.title = informationArticle.title),
 					(this.description = informationArticle.description),
-					(this.textArticle = informationArticle.textArticle)
+					(this.textArticle = informationArticle.textArticle),
+					(this.image = informationArticle.imageUrl)
 				)
 			);
 		axios
@@ -118,18 +150,43 @@ export default {
 			.then((response) => (this.informationComment = response.data));
 	},
 	methods: {
+		onFileSelected(event) {
+			let files = event.target.files || event.dataTransferr.files;
+			if (!files.length) return;
+			this.createImage(files[0]);
+			this.file = this.$refs.file.files[0];
+		},
+		createImage(file) {
+			let reader = new FileReader();
+			let vm = this;
+
+			reader.onload = (event) => {
+				vm.image = event.target.result;
+			};
+			reader.onloadend = () => {
+				this.imageUrl = reader.result;
+			};
+			reader.readAsDataURL(file);
+		},
+		removeImage: function() {
+			this.image = "";
+		},
 		formModifyArticle() {
 			this.articleId = this.$route.params.id;
 			let userData = JSON.parse(localStorage.getItem("dataUser"));
 			let userId = userData.userId;
+			let isAdmin = userData.isAdmin;
 			let token = userData.token;
 			axios.put(
 				"http://localhost:3000/api/article/" + this.articleId,
 				{
 					userId: userId,
+					isAdmin: isAdmin,
 					title: this.title,
 					description: this.description,
-					textArticle: this.textArticle
+					textArticle: this.textArticle,
+					imageUrl: this.imageUrl,
+					imageName: this.file.name
 				},
 				{
 					headers: { Authorization: `Bearer ${token}` }
@@ -140,11 +197,13 @@ export default {
 			this.articleId = this.$route.params.id;
 			let userData = JSON.parse(localStorage.getItem("dataUser"));
 			let userId = userData.userId;
+			let isAdmin = userData.isAdmin;
 			let token = userData.token;
 			axios
 				.delete("http://localhost:3000/api/article/" + this.articleId, {
 					data: {
-						userId: userId
+						userId: userId,
+						isAdmin: isAdmin
 					},
 					headers: { Authorization: `Bearer ${token}` }
 				})

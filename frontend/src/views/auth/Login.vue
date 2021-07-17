@@ -55,7 +55,6 @@ export default {
 						this.showErrorPassword = true;
 					} else if (res.status === 200) {
 						localStorage.setItem("dataUser", JSON.stringify(res.data));
-						this.$emit("modificate-state");
 						this.$router.push("homeafterlog");
 					}
 				});

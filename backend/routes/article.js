@@ -6,11 +6,12 @@ const { withJWTAuthMiddleware } = require("express-kun");
 const articleController = require("../controllers/article");
 const protectedRouter = withJWTAuthMiddleware(router, process.env.ACCESS_TOKEN_SECRET);
 const isowner = require("../middleware/isOwner");
+const multer = require("../middleware/multer-config");
 
-protectedRouter.post("/postarticle", articleController.postArticle);
+protectedRouter.post("/postarticle", multer, articleController.postArticle);
 protectedRouter.get("/", articleController.getAllArticle);
 protectedRouter.get("/:id", articleController.getOneArticle);
-protectedRouter.put("/:id", isowner, articleController.modifyArticle);
+protectedRouter.put("/:id", articleController.modifyArticle);
 protectedRouter.delete("/:id", isowner, articleController.deleteArticle);
 
 module.exports = router;

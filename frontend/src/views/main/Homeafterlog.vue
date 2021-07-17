@@ -27,7 +27,6 @@
 				<router-link :to="{ name: 'onearticle', params: { id: article.id } }"
 					>Afficher l'article</router-link
 				>
-				<p>{{ article }}</p>
 			</div>
 			<button @click="pageAllArticle">Tous les articles</button>
 		</div>

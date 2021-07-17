@@ -8,7 +8,6 @@ exports.postComment = async (req, res) => {
 		articleId: req.body.articleId,
 		content: req.body.content
 	});
-	console.log(postcomment.articleId);
 	res.json(postcomment);
 };
 
@@ -21,7 +20,9 @@ exports.getAllComments = async (req, res) => {
 };
 
 exports.getOneComment = async (req, res) => {
-	const comment = await Comment.findByPk(req.params.id);
+	const comment = await Comment.findByPk(req.params.id, {
+		include: [{ model: User, as: "User" }]
+	});
 	res.json(comment);
 };
 

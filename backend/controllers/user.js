@@ -35,6 +35,7 @@ exports.login = async (req, res, next) => {
 			} else {
 				res.status(200).json({
 					userId: user.id,
+					isAdmin: user.isAdmin,
 					token: jwtoken.sign({ userId: user.id }, process.env.ACCESS_TOKEN_SECRET, {
 						expiresIn: "24h"
 					})
