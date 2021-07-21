@@ -9,7 +9,7 @@
 				</p>
 			</div>
 			<div id="img">
-				<img v-bind:src="imageUrl" alt="" />
+				<img v-bind:src="image" alt="" />
 			</div>
 			<div id="info_article">
 				<p>{{ informationArticle.textArticle }}</p>

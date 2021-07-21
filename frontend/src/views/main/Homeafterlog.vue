@@ -45,6 +45,7 @@ export default {
 		};
 	},
 	created() {
+		this.$router.go(1);
 		let user = JSON.parse(localStorage.getItem("dataUser"));
 		let id = user.userId;
 		let token = user.token;

@@ -2,10 +2,10 @@ POST http://localhost:3000/api/auth/signup
 Content-Type: application/json
 
 {
-    "firstName": "aaaa",
-    "lastName": "Aaa",
-    "email": "aaa@aa.fr",
-    "password": "aaa" 
+    "firstName": "ccc",
+    "lastName": "ccc",
+    "email": "ccc@cc.fr",
+    "password": "ccc" 
 }
 ###
 GET http://localhost:3000/api/auth/18
@@ -15,8 +15,8 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "aaa@aa.fr",
-    "password": "aaa"
+    "email": "ccc@cc.fr",
+    "password": "ccc"
     }
 ###
 PUT http://localhost:3000/api/auth/2
@@ -47,11 +47,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhd
 GET http://localhost:3000/api/article/1
 ###
 PUT http://localhost:3000/api/article/11
-Authorization: : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYyNjQyNDk2OCwiZXhwIjoxNjI2NTExMzY4fQ.vfw-yr9zj8DMNFuj7PMoeWK8I2kq3q6zQeWYLpStPRE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTYyNjY5Mzk5NiwiZXhwIjoxNjI2NzgwMzk2fQ.-9ikNBl2nBvcLSFBAikJ0OLp-NoSgnOkZ10RiNIJ-zU
 Content-Type: application/application/json
 
 {
-    "userId": 1,
     "title": "un autre titre depuis test rest"
 }
 ###

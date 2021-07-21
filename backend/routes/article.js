@@ -11,7 +11,7 @@ const multer = require("../middleware/multer-config");
 protectedRouter.post("/postarticle", multer, articleController.postArticle);
 protectedRouter.get("/", articleController.getAllArticle);
 protectedRouter.get("/:id", articleController.getOneArticle);
-protectedRouter.put("/:id", articleController.modifyArticle);
+protectedRouter.put("/:id", isowner, articleController.modifyArticle);
 protectedRouter.delete("/:id", isowner, articleController.deleteArticle);
 
 module.exports = router;
