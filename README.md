@@ -14,4 +14,11 @@ npm run serve
 ### For backend party :
 
 cd backend
+"""
+if necessary :
+npm i --save-dev sequelize-cli
+"""
+sequelize db:create
+sequelize db:migrate
+
 nodemon server
