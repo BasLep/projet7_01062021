@@ -67,6 +67,7 @@ exports.modifyArticle = async (req, res) => {
 	article.description = req.body.description;
 	article.textArticle = req.body.textArticle;
 	await article.save();
+	res.status(201).json({ message: "article modifié" });
 };
 
 exports.deleteArticle = async (req, res) => {
@@ -78,4 +79,5 @@ exports.deleteArticle = async (req, res) => {
 		}
 	});
 	await article.destroy();
+	res.status(201).json({ message: "Article supprimé" });
 };

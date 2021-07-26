@@ -83,21 +83,30 @@ export default {
 						headers: { Authorization: `Bearer ${token}` }
 					}
 				)
-				.then.status(201)
-				.json({ message: "requête envoyée" });
+				.then((res) => {
+					if (res.stauts === 201) {
+						this.$router.go(1);
+					}
+				});
 		},
 		deleteAccount() {
 			let user = JSON.parse(localStorage.getItem("dataUser"));
 			let id = user.userId;
 			let token = user.token;
-			axios
-				.delete("http://localhost:3000/api/auth/" + id, {
-					data: {
-						userId: id
-					},
-					headers: { Authorization: `Bearer ${token}` }
-				})
-				.then(this.$router.push("Signup"));
+			if (confirm("Voulez-vous vraiment supprimé votre compte ?")) {
+				axios
+					.delete("http://localhost:3000/api/auth/" + id, {
+						data: {
+							userId: id
+						},
+						headers: { Authorization: `Bearer ${token}` }
+					})
+					.then((res) => {
+						if (res.status === 201) {
+							this.$router.push("Signup");
+						}
+					});
+			}
 		}
 	}
 };

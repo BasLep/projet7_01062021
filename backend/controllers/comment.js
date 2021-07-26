@@ -8,7 +8,7 @@ exports.postComment = async (req, res) => {
 		articleId: req.body.articleId,
 		content: req.body.content
 	});
-	res.json(postcomment);
+	res.status(201).json(postcomment);
 };
 
 exports.getAllComments = async (req, res) => {
@@ -29,11 +29,12 @@ exports.getOneComment = async (req, res) => {
 exports.deleteComment = async (req, res) => {
 	const comment = await Comment.findByPk(req.params.id);
 	await comment.destroy();
+	res.status(201).json({ message: "commmentaire supprimé" });
 };
 
 exports.modifyComment = async (req, res) => {
 	const comment = await Comment.findByPk(req.params.id);
 	comment.content = req.body.content;
-	res.json(comment);
 	await comment.save();
+	res.status(201).json(comment);
 };

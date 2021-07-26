@@ -48,16 +48,17 @@ exports.login = async (req, res, next) => {
 exports.deleteAccount = async (req, res) => {
 	const user = await User.findByPk(req.params.id);
 	await user.destroy();
+	res.status(201).json({ message: "Utilisateur supprimé" });
 };
 
 exports.modifyAccount = async (req, res) => {
-	// const userObject = req.file;
 	const user = await User.findByPk(req.params.id);
 	user.firstName = req.body.firstName;
 	user.lastName = req.body.lastName;
 	user.job = req.body.job;
 	user.desk = req.body.desk;
 	await user.save();
+	res.status(201).json({ message: "Utilisateur modifié" });
 };
 
 exports.getAllUsers = async (req, res) => {

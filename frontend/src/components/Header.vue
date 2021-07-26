@@ -1,6 +1,6 @@
 <template>
 	<header>
-		<img src="../assets/logo-groupomania.png" alt="Logo de l'entreprise" />
+		<img src="../assets/icon-left-font.png" alt="Logo de l'entreprise" />
 		<div id="nav">
 			<router-link to="/">Home</router-link> | <router-link to="/about">About</router-link> |
 			<router-link to="/signup">S'inscrire </router-link> |

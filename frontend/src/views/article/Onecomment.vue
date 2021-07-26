@@ -57,18 +57,25 @@ export default {
 			let userId = userData.userId;
 			let isAdmin = userData.isAdmin;
 			this.commentId = this.$route.params.id;
-			axios.put(
-				"http://localhost:3000/api/comment/onecomment/" + this.commentId,
-				{
-					userId: userId,
-					isAdmin: isAdmin,
-					content: this.content
-				},
-				{
-					headers: { Authorization: `Bearer ${token}` }
-				}
-			);
-			// .then(this.$router.push("homeafterlog"));
+			if (confirm("Voulez-vous modifier ce commentaire ?")) {
+				axios
+					.put(
+						"http://localhost:3000/api/comment/onecomment/" + this.commentId,
+						{
+							userId: userId,
+							isAdmin: isAdmin,
+							content: this.content
+						},
+						{
+							headers: { Authorization: `Bearer ${token}` }
+						}
+					)
+					.then((res) => {
+						if (res.status === 201) {
+							this.$router.go(0);
+						}
+					});
+			}
 		},
 		deleteComment() {
 			this.commentId = this.$route.params.id;
@@ -76,15 +83,21 @@ export default {
 			let userId = userData.userId;
 			let isAdmin = userData.isAdmin;
 			let token = userData.token;
-			axios
-				.delete("http://localhost:3000/api/comment/onecomment/" + this.commentId, {
-					data: {
-						userId: userId,
-						isAdmin: isAdmin
-					},
-					headers: { Authorization: `Bearer ${token}` }
-				})
-				.then(this.$router.push("homeafterlog"));
+			if (confirm("Voulez-vous vraiment supprimé ce commentaire ?")) {
+				axios
+					.delete("http://localhost:3000/api/comment/onecomment/" + this.commentId, {
+						data: {
+							userId: userId,
+							isAdmin: isAdmin
+						},
+						headers: { Authorization: `Bearer ${token}` }
+					})
+					.then((res) => {
+						if (res.status === 201) {
+							this.$router.push("../homeafterlog");
+						}
+					});
+			}
 		}
 	}
 };

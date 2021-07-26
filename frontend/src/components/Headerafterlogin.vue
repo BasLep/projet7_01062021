@@ -2,7 +2,7 @@
 	<div class="container">
 		<header>
 			<img
-				src="../assets/logo-groupomania.png"
+				src="../assets/icon-left-font.png"
 				alt="Logo de l'entreprise"
 				@click="returnHome"
 			/>
@@ -10,6 +10,10 @@
 				<router-link to="/homeafterlog">Accueil</router-link> |
 				<router-link to="/myaccount">Mon compte</router-link> |
 				<p id="logout" @click="logout">Se déconnecter</p>
+				<div v-if="isAdmin === true" id="all_user">
+					|
+					<router-link to="/alluser">Utilisateurs</router-link>
+				</div>
 			</div>
 		</header>
 	</div>
@@ -18,6 +22,15 @@
 <script>
 export default {
 	name: "Header",
+	data() {
+		return {
+			isAdmin: ""
+		};
+	},
+	created() {
+		let dataUser = JSON.parse(localStorage.getItem("dataUser"));
+		this.isAdmin = dataUser.isAdmin;
+	},
 	methods: {
 		returnHome() {
 			this.$router.push("Homeafterlog");

@@ -28,6 +28,7 @@
 					>Afficher l'article</router-link
 				>
 			</div>
+			<!-- <router-view :key="$route.path" /> -->
 			<button @click="pageAllArticle">Tous les articles</button>
 		</div>
 	</div>

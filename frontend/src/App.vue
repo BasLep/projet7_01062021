@@ -1,8 +1,13 @@
 <template>
 	<div>
 		<Header v-if="token === null" />
-		<Headerafterlogin v-if="token !== null" :key="componenetKey" />
+		<Headerafterlogin v-if="token !== null" />
 		<router-view />
+		<!-- :key="$route.path" v-slot="{ Component }"> -->
+		<!-- <transition name="slide" mode="out-in">
+				<component :is="Component"></component>
+			</transition> -->
+		<!-- </router-view> -->
 	</div>
 </template>
 
@@ -17,7 +22,6 @@ export default {
 	},
 	data() {
 		return {
-			compomentKey: 0,
 			token: null
 		};
 	},
@@ -39,7 +43,6 @@ export default {
 	text-align: center;
 	color: #2c3e50;
 }
-
 #nav {
 	padding: 30px;
 
@@ -48,8 +51,17 @@ export default {
 		color: #2c3e50;
 
 		&.router-link-exact-active {
-			color: #42b983;
+			color: red;
 		}
 	}
+}
+.slide-enter-active,
+.slide-leave-active {
+	transition: opacity 1s, transform 1s;
+}
+.slide-enter,
+.slide-leave-to {
+	opacity: 0;
+	transform: translateX(-30%);
 }
 </style>

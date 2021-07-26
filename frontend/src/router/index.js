@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 // import { path } from "../../../backend/app";
 import Home from "../views/Home.vue";
 
@@ -18,54 +18,72 @@ const routes = [
 	},
 	{
 		path: "/signup",
-		component: () => import("../views/auth/Signup.vue"),
-		name: "signup"
+		name: "signup",
+		component: () => import(/* webpackChunkName: "signup" */ "../views/auth/Signup.vue")
 	},
 	{
 		path: "/login",
-		component: () => import("../views/auth/Login.vue"),
-		name: "login"
+		name: "login",
+		component: () => import(/* webpackChunkName: "login" */ "../views/auth/Login.vue")
 	},
 	{
 		path: "/homeafterlog",
-		component: () => import("../views/main/Homeafterlog.vue"),
 		name: "homeafterlog",
+		component: () =>
+			import(/* webpackChunkName: "homeafterlog" */ "../views/main/Homeafterlog.vue"),
 		meta: { requiresAuth: true }
 	},
 	{
 		path: "/myaccount",
-		component: () => import("../views/account/Myaccount.vue"),
 		name: "myaccount",
+		component: () =>
+			import(/* webpackChunkName: "myaccount" */ "../views/account/Myaccount.vue"),
+		meta: { requiresAuth: true }
+	},
+	{
+		path: "/alluser",
+		name: "alluser",
+		component: () => import(/* webpackChunkName: "alluser" */ "../views/account/Alluser.vue"),
 		meta: { requiresAuth: true }
 	},
 	{
 		path: "/newarticle",
-		component: () => import("../views/article/NewArticle.vue"),
 		name: "newarticle",
+		component: () =>
+			import(/* webpackChunkName: "newarticle" */ "../views/article/NewArticle.vue"),
 		meta: { requiresAuth: true }
 	},
 	{
 		path: "/allarticle",
-		component: () => import("../views/article/AllArticle.vue"),
 		name: "allarticle",
+		component: () =>
+			import(/* webpackChunkName: "allarticle" */ "../views/article/AllArticle.vue"),
 		meta: { requiresAuth: true }
 	},
 	{
 		path: "/onearticle/:id",
-		component: () => import("../views/article/OneArticle.vue"),
 		name: "onearticle",
+		component: () =>
+			import(/* webpackChunkName: "onearticle" */ "../views/article/OneArticle.vue"),
 		meta: { requiresAuth: true }
 	},
 	{
 		path: "/onecomment/:id",
-		component: () => import("../views/article/Onecomment.vue"),
 		name: "onecomment",
+		component: () =>
+			import(/* webpackChunkName: "onecomment" */ "../views/article/Onecomment.vue"),
+		meta: { requiresAuth: true }
+	},
+	{
+		path: "/:catchAll(.*)",
+		name: "notFound",
+		component: () => import(/* webpackChunkName: "notfound" */ "../views/NotFound.vue"),
 		meta: { requiresAuth: true }
 	}
 ];
 
 const router = createRouter({
-	history: createWebHashHistory(),
+	history: createWebHistory(),
 	routes
 });
 

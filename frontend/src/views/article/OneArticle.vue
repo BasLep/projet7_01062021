@@ -1,5 +1,6 @@
 <template>
 	<div class="container">
+		<GoBack />
 		<div id="display_not_auth" v-if="userIdFromToken !== informationArticle.User.id">
 			<div id="info_title_auth">
 				<h2>{{ informationArticle.title }}</h2>
@@ -65,9 +66,9 @@
 						v-model="textArticle"
 					></textarea>
 				</div>
-				<button type="submit">Modifier article</button>
+				<button type="submit">Modifier</button>
 			</form>
-			<button @click="deleteArticle">Supprimer l'article</button>
+			<button @click="deleteArticle"><i class="fas fa-trash-alt"></i></button>
 		</div>
 		<div id="post_comment">
 			<form @submit.prevent="formPostComment" id="form_post_comment">
@@ -104,9 +105,13 @@
 
 <script>
 import axios from "axios";
+import GoBack from "../../components/Goback.vue";
 
 export default {
 	name: "oneArticle",
+	compoments: {
+		GoBack
+	},
 	data() {
 		return {
 			articleId: null,
@@ -177,21 +182,29 @@ export default {
 			let userId = userData.userId;
 			let isAdmin = userData.isAdmin;
 			let token = userData.token;
-			axios.put(
-				"http://localhost:3000/api/article/" + this.articleId,
-				{
-					userId: userId,
-					isAdmin: isAdmin,
-					title: this.title,
-					description: this.description,
-					textArticle: this.textArticle,
-					imageUrl: this.imageUrl,
-					imageName: this.file.name
-				},
-				{
-					headers: { Authorization: `Bearer ${token}` }
-				}
-			);
+			if (confirm("Voulez-vous modifier cet article ?")) {
+				axios
+					.put(
+						"http://localhost:3000/api/article/" + this.articleId,
+						{
+							userId: userId,
+							isAdmin: isAdmin,
+							title: this.title,
+							description: this.description,
+							textArticle: this.textArticle,
+							imageUrl: this.imageUrl,
+							imageName: this.file.name
+						},
+						{
+							headers: { Authorization: `Bearer ${token}` }
+						}
+					)
+					.then((res) => {
+						if (res.status === 201) {
+							this.$router.go(0);
+						}
+					});
+			}
 		},
 		deleteArticle() {
 			this.articleId = this.$route.params.id;
@@ -199,32 +212,46 @@ export default {
 			let userId = userData.userId;
 			let isAdmin = userData.isAdmin;
 			let token = userData.token;
-			axios
-				.delete("http://localhost:3000/api/article/" + this.articleId, {
-					data: {
-						userId: userId,
-						isAdmin: isAdmin
-					},
-					headers: { Authorization: `Bearer ${token}` }
-				})
-				.then(this.$router.push("homeafterlog"));
+			if (confirm("Voulez-vous vraiment supprimer cet article ?")) {
+				axios
+					.delete("http://localhost:3000/api/article/" + this.articleId, {
+						data: {
+							userId: userId,
+							isAdmin: isAdmin
+						},
+						headers: { Authorization: `Bearer ${token}` }
+					})
+					.then((res) => {
+						if (res.status === 201) {
+							this.$router.push("../homeafterlog");
+						}
+					});
+			}
 		},
 		formPostComment() {
 			this.articleId = this.$route.params.id;
 			let userData = JSON.parse(localStorage.getItem("dataUser"));
 			let userId = userData.userId;
 			let token = userData.token;
-			axios.post(
-				"http://localhost:3000/api/comment/postcomment",
-				{
-					articleId: this.articleId,
-					userId: userId,
-					content: this.content
-				},
-				{
-					headers: { Authorization: `Bearer ${token}` }
-				}
-			);
+			if (confirm("Voulez-vous poster ce commentaire ?")) {
+				axios
+					.post(
+						"http://localhost:3000/api/comment/postcomment",
+						{
+							articleId: this.articleId,
+							userId: userId,
+							content: this.content
+						},
+						{
+							headers: { Authorization: `Bearer ${token}` }
+						}
+					)
+					.then((res) => {
+						if (res.status === 201) {
+							this.$router.go(0);
+						}
+					});
+			}
 		},
 		displayComments() {
 			this.showComment = !this.showComment;
