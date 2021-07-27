@@ -2,23 +2,25 @@
 	<div>
 		<Header v-if="token === null" />
 		<Headerafterlogin v-if="token !== null" />
-		<router-view />
-		<!-- :key="$route.path" v-slot="{ Component }"> -->
-		<!-- <transition name="slide" mode="out-in">
+		<router-view :key="$route.path" v-slot="{ Component }">
+			<transition name="slide" mode="out-in">
 				<component :is="Component"></component>
-			</transition> -->
-		<!-- </router-view> -->
+			</transition>
+		</router-view>
+		<Footer />
 	</div>
 </template>
 
 <script>
 import Header from "@/components/Header.vue";
 import Headerafterlogin from "@/components/Headerafterlogin.vue";
+import Footer from "@/components/Footer.vue";
 
 export default {
 	components: {
 		Header,
-		Headerafterlogin
+		Headerafterlogin,
+		Footer
 	},
 	data() {
 		return {
